@@ -1,7 +1,6 @@
 import streamlit as st
 from snowflake.snowpark import Session
 from snowflake.cortex import complete
-from snow_mfa import snowflake_connect
 from snowflake.core import Root 
 
 

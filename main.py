@@ -19,7 +19,7 @@ connection_parameters = {
 
 
 
-session = Session.builder.configs(snowflake_connect()).create()
+session = Session.builder.configs(connection_parameters).create()
 root = Root(session)
 
 my_service = (root

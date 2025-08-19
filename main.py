@@ -23,8 +23,8 @@ session = Session.builder.configs(connection_parameters).create()
 root = Root(session)
 
 my_service = (root
-            .databases["CORTEX_SEARCH_TUTORIAL_DB"]
-            .schemas["PUBLIC"]
+            .databases[st.secrets["DATEBASE"]]
+            .schemas[st.secrets["SCHEMA"]]
             .cortex_search_services["OMNIBUS"]
         )
 

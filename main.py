@@ -29,6 +29,40 @@ my_service = (root
         )
 
 
+
+st.title(f":speech_balloon: Omnibus Rules Chatbot")
+st.write("This serves as a chatbot where you can ask anything about the Omnibus Rules")
+
+
+def check_login():
+    """Displays a login form and handles authentication."""
+    st.header("Login")
+    with st.form("login_form"):
+        #username = st.text_input("Username").lower()
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Login")
+
+        if submitted:
+            try:
+                # Retrieve credentials securely from secrets
+                #stored_usernames = st.secrets.get("credentials", {}).get("usernames", [])
+                #stored_passwords = st.secrets.get("credentials", {}).get("passwords", [])
+                stored_passwords = st.secrets["LOG_IN_PW"]
+
+
+                
+                
+                #user_index = stored_usernames
+                if stored_passwords == password:
+                    st.session_state["authenticated"] = True
+                    st.rerun()
+                else:
+                    st.error("Invalid username or password")
+            except (ValueError, IndexError):
+                st.error("Invalid username or password")
+    return False
+
+
 def get_chat_history():
     """
     Retrieve the chat history from the session state limited to the number of messages specified
@@ -137,9 +171,6 @@ def generate_answer(prompt):
 
 
 def main():
-    st.title(f":speech_balloon: Omnibus Rules Chatbot")
-    st.write("This serves as a chatbot where you can ask anything about the Omnibus Rules")
-
     # Function to clear the chat history
     def clear_chat_history():
         st.session_state.messages = []
@@ -173,5 +204,10 @@ def main():
     st.sidebar.button("Clear Chat", on_click=clear_chat_history)
 
 
-if __name__ == '__main__':
+
+# Check if user is authenticated. If not, show the login form.
+if not st.session_state.get("authenticated", False):
+    check_login()
+else:
+    # If authenticated, show the main application.
     main()
